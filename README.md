@@ -64,21 +64,24 @@ mvn spring-boot:run
 
 ### 👤 Usuarios
 - `POST /api/usuarios` - Crear un usuario
-- `GET /api/usuarios/{id}` - Obtener un usuario por ID
+- `GET /api/usuarios/findAll` - Obtener todos los usuarios
+- `GET /api/usuarios/findById/{id}` - Obtener un usuario por ID
 - `PUT /api/usuarios/{id}` - Actualizar un usuario
 - `DELETE /api/usuarios/{id}` - Eliminar un usuario
 
 ### 🛒 Productos
 - `POST /api/productos` - Crear un producto
-- `GET /api/productos` - Listar productos
-- `GET /api/productos/{id}` - Obtener un producto por ID
+- `GET /api/productos/findAll` - Listar todos los productos
+- `GET /api/productos/findById/{id}` - Obtener un producto por ID
 - `PUT /api/productos/{id}` - Actualizar un producto
 - `DELETE /api/productos/{id}` - Eliminar un producto
 
 ### 📂 Categorías
 - `POST /api/categorias` - Crear una categoría
-- `GET /api/categorias` - Listar categorías
-- `GET /api/categorias/{id}` - Obtener una categoría por ID
+- `GET /api/categorias/findAll` - Listar todas las categorías
+- `GET /api/categorias/findById/{id}` - Obtener una categoría por ID
+- `PUT /api/categorias/{id}` - Actualizar una categoría
+- `DELETE /api/categorias/{id}/with-products` - Eliminar una categoría con sus productos
 
 ---
 
