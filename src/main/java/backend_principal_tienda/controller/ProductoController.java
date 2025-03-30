@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/backend-principal-tienda/api/productos")
+@RequestMapping("/api/v1/backend-principal-tienda/productos")
 @RequiredArgsConstructor
 public class ProductoController {
 

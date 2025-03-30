@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/backend-principal-tienda/api/categorias")
+@RequestMapping("/api/v1/backend-principal-tienda/categorias")
 @RequiredArgsConstructor
 public class CategoriaController {
 
