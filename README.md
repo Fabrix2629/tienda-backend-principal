@@ -84,6 +84,10 @@ mvn spring-boot:run
 - `DELETE /api/categorias/{id}/with-products` - Eliminar una categoría con sus productos
 
 ---
+### 🔐 Aceso Login
+- `POST /auth/login - Iniciar sesión`
+- `POST /auth/register - Registrar un usuario`
+---
 
 ## 6️⃣ **📑 Documentación con Swagger**
 La API cuenta con documentación interactiva generada con Swagger. Para acceder, inicia la aplicación y visita:
