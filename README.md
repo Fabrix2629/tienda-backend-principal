@@ -88,22 +88,97 @@ mvn spring-boot:run
 - `POST /auth/login - Iniciar sesión`
 - `POST /auth/register - Registrar un usuario`
 ---
+## 🔌 Dependencias
 
-## 6️⃣ **📑 Documentación con Swagger**
-La API cuenta con documentación interactiva generada con Swagger. Para acceder, inicia la aplicación y visita:
+### Core Spring Boot
+- `spring-boot-starter-data-jpa` - Persistencia de datos con JPA/Hibernate
+- `spring-boot-starter-web` - Construcción de APIs REST
+- `spring-boot-starter-security` - Autenticación y autorización
+- `spring-boot-starter-test` - Testing framework
+
+### Base de Datos
+- `mysql-connector-j` - Driver para MySQL 8+
+- `hibernate-core` - ORM framework (incluido en JPA starter)
+
+### Seguridad
+- `jjwt-api` + `jjwt-impl` + `jjwt-jackson` - Para JWT tokens (v0.11.5)
+
+### Desarrollo
+- `lombok` - Reduce boilerplate code (v1.18.22)
+- `spring-boot-devtools` - Recarga en caliente
+- `jackson-databind` - Procesamiento JSON
+
+### Documentación
+- `springdoc-openapi-starter-webmvc-ui` - Swagger UI (v2.8.6)
+
+### Testing
+- `junit-jupiter` - JUnit 5 (v5.9.3)
+- `mockito-junit-jupiter` - Mocking (v5.7.0)
+- `spring-security-test` - Testing de seguridad
+
+### 🔧 Plugins Maven
+
+```xml
+<plugins>
+  <!-- Plugin principal de Spring Boot -->
+  <plugin>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+    <configuration>
+      <excludes>
+        <exclude>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+        </exclude>
+      </excludes>
+    </configuration>
+  </plugin>
+
+  <!-- Plugin para cobertura de código con JaCoCo -->
+  <plugin>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.11</version>
+    <executions>
+      <execution>
+        <id>prepare-agent</id>
+        <goals>
+          <goal>prepare-agent</goal>
+        </goals>
+      </execution>
+      <execution>
+        <id>report</id>
+        <phase>test</phase>
+        <goals>
+          <goal>report</goal>
+        </goals>
+      </execution>
+    </executions>
+  </plugin>
+
+  <!-- Plugin para compilación con soporte Lombok -->
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <configuration>
+      <annotationProcessorPaths>
+        <path>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>1.18.22</version>
+        </path>
+      </annotationProcessorPaths>
+    </configuration>
+  </plugin>
+</plugins>
+
+Esta versión incluye:
+1. Los tres plugins principales con sus configuraciones clave
+2. Comentarios descriptivos para cada plugin
+3. Formateo limpio para mejor legibilidad
+4. Las versiones específicas donde son relevantes
+
 ```
-http://localhost:8080/swagger-ui.html
-```
-
----
-
-## 7️⃣ **🧪 Pruebas**
-Para ejecutar las pruebas unitarias con JUnit, usa:
-```bash
-mvn test
-```
-
----
 
 ## 8️⃣ **🤝 Contribuciones**
 Si deseas contribuir a este proyecto, por favor sigue estos pasos:
