@@ -56,8 +56,7 @@ class CategoriaServiceTest {
     }
 
     @Test
-    @DisplayName("Debería retornar todas las categorías")
-    void findAll_ShouldReturnAllCategories() {
+    void findAllShouldReturnAllCategories() {
         // Arrange
         when(categoriaRepository.findAll()).thenReturn(List.of(categoria));
         when(categoriaMapper.toDto(categoria)).thenReturn(dto);
@@ -75,8 +74,7 @@ class CategoriaServiceTest {
     }
 
     @Test
-    @DisplayName("Debería retornar categoría cuando el ID existe")
-    void findById_WhenIdExists_ShouldReturnCategory() {
+    void findByIdWhenIdExists() {
         // Arrange
         when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoria));
         when(categoriaMapper.toDto(categoria)).thenReturn(dto);
@@ -92,8 +90,7 @@ class CategoriaServiceTest {
         verify(categoriaMapper, times(1)).toDto(categoria);
     }
     @Test
-    @DisplayName("Debería lanzar excepción cuando el ID no existe")
-    void findById_WhenIdNotExists_ShouldThrowException() {
+    void findByIdWhenIdNotExistsException() {
         // Arrange
         when(categoriaRepository.findById(99)).thenReturn(Optional.empty());
 
@@ -106,8 +103,7 @@ class CategoriaServiceTest {
         verify(categoriaMapper, never()).toDto(any());
     }
     @Test
-    @DisplayName("Debería crear una nueva categoría")
-    void create_ShouldSaveNewCategory() {
+    void createCreateNewCategory() {
         // Arrange
         when(categoriaMapper.toEntity(createDto)).thenReturn(categoria);
         when(categoriaRepository.save(categoria)).thenReturn(categoria);
@@ -126,12 +122,11 @@ class CategoriaServiceTest {
     }
 
     @Test
-    @DisplayName("Debería actualizar una categoría existente")
-    void update_ShouldUpdateExistingCategory() {
+    void updateUpdateCategory() {
         // Arrange
         Map<String, Object> updates = Map.of(
                 "nombre", "Electrodomésticos",
-                "descripcion", "Nueva descripción"
+                "descripcion", "Descripcion de refrigerados"
         );
 
         when(categoriaRepository.findById(1)).thenReturn(Optional.of(categoria));
@@ -144,7 +139,7 @@ class CategoriaServiceTest {
         // Assert
         assertNotNull(result);
         assertEquals("Electrodomésticos", categoria.getNombre());
-        assertEquals("Nueva descripción", categoria.getDescripcion());
+        assertEquals("Descripcion de refrigerados", categoria.getDescripcion());
 
         verify(categoriaRepository, times(1)).findById(1);
         verify(categoriaRepository, times(1)).save(categoria);
@@ -152,8 +147,7 @@ class CategoriaServiceTest {
     }
 
     @Test
-    @DisplayName("Debería eliminar categoría y sus productos")
-    void deleteWithProducts_ShouldDeleteCategoryAndProducts() {
+    void deleteWithProductsAndProducts() {
         // Arrange
         when(categoriaRepository.existsById(1)).thenReturn(true);
 
@@ -167,8 +161,7 @@ class CategoriaServiceTest {
     }
 
     @Test
-    @DisplayName("Debería lanzar excepción al eliminar categoría inexistente")
-    void deleteWithProducts_WhenCategoryNotExists_ShouldThrowException() {
+    void deleteWithProductsWhenCategoryNotExistsException() {
         // Arrange
         when(categoriaRepository.existsById(99)).thenReturn(false);
 
@@ -183,8 +176,7 @@ class CategoriaServiceTest {
     }
 
     @Test
-    @DisplayName("Debería lanzar excepción con tipo de campo inválido")
-    void update_WithInvalidFieldType_ShouldThrowException() {
+    void update_WithNameInvaliteException() {
         // Arrange
         Map<String, Object> updates = Map.of("nombre", 123); // Int en lugar de String
 
