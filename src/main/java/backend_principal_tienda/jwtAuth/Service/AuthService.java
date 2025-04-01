@@ -23,28 +23,50 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        UserDetails user=userRepository.findByUsername(request.getUsername()).orElseThrow();
-        String token=jwtService.getToken(user);
-        return AuthResponse.builder()
-                .token(token)
-                .build();
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
 
+            UserDetails user = userRepository.findByUsername(request.getUsername())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            String token = jwtService.getToken(user);
+
+            return AuthResponse.builder()
+                    .token(token)
+                    .build();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Authentication failed: " + e.getMessage());
+        }
     }
 
     public AuthResponse register(RegisterRequest request) {
-        User user = User.builder()
-                .username(request.getUsername())
-                .lastName(request.getLastName())
-                .firstName(request.getFirstName())
-                .password(passwordEncoder.encode( request.getPassword()))
-                .role(Role.USER)
-                .build();
-        userRepository.save(user);
-        return AuthResponse.builder()
-                .token(jwtService.getToken(user))
-                .build();
+        try {
+            if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+                throw new RuntimeException("Username already exists");
+            }
 
+            User user = User.builder()
+                    .username(request.getUsername())
+                    .lastName(request.getLastName())
+                    .firstName(request.getFirstName())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(Role.ADMIN)
+                    .build();
+
+            userRepository.save(user);
+
+            return AuthResponse.builder()
+                    .token(jwtService.getToken(user))
+                    .build();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Registration failed: " + e.getMessage());
+        }
     }
-
 }
