@@ -76,7 +76,7 @@ cd tienda-backend-principal
 ### ⚙️ **Configuración de Base de Datos**
 Configura el archivo `application.properties` con las credenciales de tu base de datos MySQL:
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/tienda_db
+spring.datasource.url=jdbc:mysql://localhost:3306/db_tienda_00
 spring.datasource.username=root
 spring.datasource.password=tu_contraseña
 spring.jpa.hibernate.ddl-auto=update
