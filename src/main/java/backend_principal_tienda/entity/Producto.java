@@ -2,7 +2,6 @@ package backend_principal_tienda.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "productos")
@@ -28,8 +27,8 @@ public class Producto {
     @Column(nullable = false)
     private Integer stock;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoria_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", referencedColumnName = "id",nullable = false)
     private Categoria categoria;
 
 }

@@ -74,4 +74,12 @@ public class CategoriaService {
         categoriaRepository.deleteProductosByCategoriaId(id);
         categoriaRepository.deleteById(id);
     }
+    @Transactional
+    public void deleteById(Integer id){
+        if (!categoriaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Categoría no encontrada");
+        }
+        categoriaRepository.deleteById(id);
+    }
+
 }

@@ -1,5 +1,6 @@
 package backend_principal_tienda.dto.create;
 
+import backend_principal_tienda.entity.Categoria;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,5 +13,6 @@ public class ProductoCreateDto {
     private String descripcion;
     private Double precio;
     private Integer stock;
-    private Integer categoriaId;
+    private Categoria categoria;
+
 }

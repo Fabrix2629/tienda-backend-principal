@@ -38,13 +38,19 @@ public class ProductoService {
 
     @Transactional
     public ProductoDto create(ProductoCreateDto dto) {
-        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
+        if (dto == null) {
+            throw new IllegalArgumentException("Los datos del producto son requeridos");
+        }
+
+        Categoria categoria = categoriaRepository.findById(dto.getCategoria().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada con ID: " + dto.getCategoria()));
 
         Producto producto = productoMapper.toEntity(dto);
         producto.setCategoria(categoria);
 
-        return productoMapper.toDto(productoRepository.save(producto));
+        Producto productoGuardado = productoRepository.save(producto);
+
+        return productoMapper.toDto(productoGuardado);
     }
 
     @Transactional
@@ -52,14 +58,14 @@ public class ProductoService {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado"));
 
-        productoMapper.updateFromDto(dto, producto);
-
-        if (dto.getCategoriaId() != null) {
-            Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+        // Validar y actualizar categoría si viene en el DTO
+        if (dto.getCategoria() != null && dto.getCategoria().getId() != null) {
+            Categoria categoria = categoriaRepository.findById(dto.getCategoria().getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
             producto.setCategoria(categoria);
         }
 
+        productoMapper.updateFromDto(dto, producto);
         return productoMapper.toDto(productoRepository.save(producto));
     }
 

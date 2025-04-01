@@ -29,24 +29,4 @@ public class CategoriaMapper {
                 .descripcion(dto.getDescripcion())
                 .build();
     }
-
-    public CategoriaDto toUpdateDto(Map<String, Object> requestMap) {
-        CategoriaDto dto = new CategoriaDto();
-
-        if (requestMap.containsKey("nombre")) {
-            if (!(requestMap.get("nombre") instanceof String)) {
-                throw new InvalidTypeException("nombre", "String");
-            }
-            dto.setNombre((String) requestMap.get("nombre"));
-        }
-
-        if (requestMap.containsKey("descripcion")) {
-            if (requestMap.get("descripcion") != null && !(requestMap.get("descripcion") instanceof String)) {
-                throw new InvalidTypeException("descripcion", "String");
-            }
-            dto.setDescripcion((String) requestMap.get("descripcion"));
-        }
-
-        return dto;
-    }
 }

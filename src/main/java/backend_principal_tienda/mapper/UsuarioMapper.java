@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UsuarioMapper {
-
     public UsuarioDto toDto(Usuario usuario) {
         if (usuario == null) return null;
 
@@ -18,7 +17,6 @@ public class UsuarioMapper {
                 .clave(usuario.getClave())
                 .build();
     }
-
     public Usuario toEntity(UsuarioCreateDto dto) {
         if (dto == null) return null;
 
@@ -28,5 +26,4 @@ public class UsuarioMapper {
                 .clave(dto.getClave())
                 .build();
     }
-    
 }

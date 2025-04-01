@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
-                            authorities // Usa las autoridades extraídas del token
+                            authorities
                     );
 
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -61,8 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             }
         } catch (Exception e) {
-            // Log the error and clear context for security
-            logger.error("Error processing JWT token: " + e.getMessage());
+
             SecurityContextHolder.clearContext();
         }
 

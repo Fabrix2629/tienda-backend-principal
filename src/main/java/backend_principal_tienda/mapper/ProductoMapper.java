@@ -21,8 +21,7 @@ public class ProductoMapper {
                 .descripcion(producto.getDescripcion())
                 .precio(producto.getPrecio())
                 .stock(producto.getStock())
-                .categoriaId(producto.getCategoria().getId())
-                .categoriaNombre(producto.getCategoria().getNombre())
+                .categoria(producto.getCategoria())
                 .build();
     }
 
@@ -41,7 +40,7 @@ public class ProductoMapper {
         if (dto == null || entity == null) return;
 
         if (dto.getNombre() != null) entity.setNombre(dto.getNombre());
-        entity.setDescripcion(dto.getDescripcion());
+        if (dto.getDescripcion() != null) entity.setDescripcion(dto.getDescripcion());
         if (dto.getPrecio() != null) entity.setPrecio(dto.getPrecio());
         if (dto.getStock() != null) entity.setStock(dto.getStock());
     }

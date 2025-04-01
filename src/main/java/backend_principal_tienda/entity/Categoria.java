@@ -25,8 +25,5 @@ public class Categoria {
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
-    @Builder.Default
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Producto> productos = new ArrayList<>();
 
 }

@@ -16,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/backend-principal-tienda/categorias")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class CategoriaController {
 
     private final CategoriaService categoriaService;
@@ -47,6 +48,11 @@ public class CategoriaController {
     @DeleteMapping("/{id}/with-products")
     public ResponseEntity<Void> deleteWithProducts(@PathVariable Integer id) {
         categoriaService.deleteWithProducts(id);
+        return ResponseEntity.noContent().build();
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deteleCategoria(@PathVariable Integer id) {
+        categoriaService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
