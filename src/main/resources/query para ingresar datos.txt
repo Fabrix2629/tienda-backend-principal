@@ -1,0 +1,56 @@
+-- Creación de la base de datos
+CREATE DATABASE IF NOT EXISTS db_tienda_00;
+USE db_tienda_00;
+
+-- Tabla de categorías
+CREATE TABLE categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabla de usuarios
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    usuario VARCHAR(50) NOT NULL UNIQUE,
+    clave VARCHAR(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabla de productos
+CREATE TABLE productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10, 2) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    categoria_id INT NOT NULL,
+    categoria VARCHAR(100) NOT NULL, 
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id),
+    INDEX (categoria)  -- Índice para mejor performance en búsquedas
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Inserción de datos de ejemplo (5 categorías)
+INSERT INTO categorias (nombre, descripcion) VALUES
+('Electrónicos', 'Dispositivos electrónicos y accesorios'),
+('Ropa', 'Prendas de vestir para todas las edades'),
+('Hogar', 'Artículos para el hogar y decoración'),
+('Alimentos', 'Productos alimenticios y bebidas'),
+('Libros', 'Libros de todos los géneros literarios');
+
+-- Inserción de usuarios de ejemplo (5 registros)
+-- Las contraseñas están en texto plano (en un sistema real deberían estar encriptadas)
+INSERT INTO usuarios (nombre, usuario, clave) VALUES
+('Admin Principal', 'admin', 'admin123'),
+('Juan Pérez', 'jperez', 'clave123'),
+('María Gómez', 'mgomez', 'password123'),
+('Carlos Ruiz', 'cruiz', 'miClaveSegura'),
+('Ana López', 'alopez', 'abc123');
+
+-- Inserción de productos (ahora con ambos campos)
+INSERT INTO productos (nombre, descripcion, precio, stock, categoria_id, categoria) VALUES
+('Smartphone X', 'Teléfono inteligente gama alta', 899.99, 50, 1, 'Electrónicos'),
+('Camiseta Algodón', 'Camiseta básica 100% algodón', 19.99, 100, 2, 'Ropa'),
+('Sofá 3 Plazas', 'Sofá moderno en tela resistente', 599.99, 15, 3, 'Hogar'),
+('Café Premium', 'Café 100% arábica 500g', 12.99, 80, 4, 'Alimentos'),
+('Novela Best Seller', 'La novela más vendida del año', 14.99, 60, 5, 'Libros');
