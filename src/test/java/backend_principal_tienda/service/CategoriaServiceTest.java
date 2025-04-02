@@ -1,6 +1,6 @@
 package backend_principal_tienda.service;
 
-import backend_principal_tienda.dto.Update.CategoriaDto;
+import backend_principal_tienda.dto.Update.CategoriaUpdateDto;
 import backend_principal_tienda.dto.create.CategoriaCreateDto;
 import backend_principal_tienda.entity.Categoria;
 import backend_principal_tienda.exceptions.InvalidTypeException;
@@ -8,7 +8,6 @@ import backend_principal_tienda.exceptions.ResourceNotFoundException;
 import backend_principal_tienda.mapper.CategoriaMapper;
 import backend_principal_tienda.repository.CategoriaRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,22 +35,21 @@ class CategoriaServiceTest {
 
     private Categoria categoria;
     private CategoriaCreateDto createDto;
-    private CategoriaDto dto;
+    private CategoriaUpdateDto dto;
 
     @BeforeEach
     void setUp() {
         // Datos de prueba comunes
         categoria = Categoria.builder()
-                .id(1)
-                .nombre("Electrónicos")
-                .descripcion("Productos electrónicos")
+                .nameCategory("Electrónicos")
+                .descriptionCategory("Productos electrónicos")
                 .build();
 
-        createDto = new CategoriaCreateDto("Electrónicos", "Productos electrónicos");
-        dto = CategoriaDto.builder()
-                .id(1)
-                .nombre("Electrónicos")
-                .descripcion("Productos electrónicos")
+        createDto = new CategoriaCreateDto("Electrónicos", "CAT-001","Productos electrónicos");
+        dto = CategoriaUpdateDto.builder()
+                .nameCategory("Electrónicos")
+                .descriptionCategory("Productos electrónicos")
+                .codigoCategory("CAT-001")
                 .build();
     }
 
@@ -62,7 +60,7 @@ class CategoriaServiceTest {
         when(categoriaMapper.toDto(categoria)).thenReturn(dto);
 
         // Act
-        List<CategoriaDto> result = categoriaService.findAll();
+        List<CategoriaUpdateDto> result = categoriaService.findAll();
 
         // Assert
         assertNotNull(result);
@@ -80,7 +78,7 @@ class CategoriaServiceTest {
         when(categoriaMapper.toDto(categoria)).thenReturn(dto);
 
         // Act
-        CategoriaDto result = categoriaService.findById(1);
+        CategoriaUpdateDto result = categoriaService.findById(1);
 
         // Assert
         assertNotNull(result);
@@ -110,7 +108,7 @@ class CategoriaServiceTest {
         when(categoriaMapper.toDto(categoria)).thenReturn(dto);
 
         // Act
-        CategoriaDto result = categoriaService.create(createDto);
+        CategoriaUpdateDto result = categoriaService.create(createDto);
 
         // Assert
         assertNotNull(result);
@@ -134,12 +132,12 @@ class CategoriaServiceTest {
         when(categoriaMapper.toDto(categoria)).thenReturn(dto);
 
         // Act
-        CategoriaDto result = categoriaService.update(1, updates);
+        CategoriaUpdateDto result = categoriaService.update(1, updates);
 
         // Assert
         assertNotNull(result);
-        assertEquals("Electrodomésticos", categoria.getNombre());
-        assertEquals("Descripcion de refrigerados", categoria.getDescripcion());
+        assertEquals("Electrodomésticos", categoria.getNameCategory());
+        assertEquals("Descripcion de refrigerados", categoria.getDescriptionCategory());
 
         verify(categoriaRepository, times(1)).findById(1);
         verify(categoriaRepository, times(1)).save(categoria);

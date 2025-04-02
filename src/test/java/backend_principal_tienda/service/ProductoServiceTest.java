@@ -1,6 +1,6 @@
 package backend_principal_tienda.service;
 
-import backend_principal_tienda.dto.Update.ProductoDto;
+import backend_principal_tienda.dto.Update.ProductoUpdateDto;
 import backend_principal_tienda.dto.create.ProductoCreateDto;
 import backend_principal_tienda.entity.Categoria;
 import backend_principal_tienda.entity.Producto;
@@ -40,12 +40,12 @@ class ProductoServiceTest {
     void findAll_ShouldReturnListOfProductoDto() {
         // Arrange
         Producto producto = new Producto();
-        ProductoDto dto = new ProductoDto();
+        ProductoUpdateDto dto = new ProductoUpdateDto();
         when(productoRepository.findAll()).thenReturn(Collections.singletonList(producto));
         when(productoMapper.toDto(producto)).thenReturn(dto);
 
         // Act
-        List<ProductoDto> result = productoService.findAll();
+        List<ProductoUpdateDto> result = productoService.findAll();
 
         // Assert
         assertNotNull(result);
@@ -60,12 +60,12 @@ class ProductoServiceTest {
         // Arrange
         Integer id = 1;
         Producto producto = new Producto();
-        ProductoDto dto = new ProductoDto();
+        ProductoUpdateDto dto = new ProductoUpdateDto();
         when(productoRepository.findById(id)).thenReturn(Optional.of(producto));
         when(productoMapper.toDto(producto)).thenReturn(dto);
 
         // Act
-        ProductoDto result = productoService.findById(id);
+        ProductoUpdateDto result = productoService.findById(id);
 
         // Assert
         assertNotNull(result);
@@ -95,7 +95,7 @@ class ProductoServiceTest {
         Categoria categoria = new Categoria();
         Producto producto = new Producto();
         Producto savedProducto = new Producto();
-        ProductoDto dto = new ProductoDto();
+        ProductoUpdateDto dto = new ProductoUpdateDto();
 
         when(categoriaRepository.findById(categoriaId)).thenReturn(Optional.of(categoria));
         when(productoMapper.toEntity(createDto)).thenReturn(producto);
@@ -103,7 +103,7 @@ class ProductoServiceTest {
         when(productoMapper.toDto(savedProducto)).thenReturn(dto);
 
         // Act
-        ProductoDto result = productoService.create(createDto);
+        ProductoUpdateDto result = productoService.create(createDto);
 
         // Assert
         assertNotNull(result);
@@ -135,13 +135,13 @@ class ProductoServiceTest {
         // Arrange
         Integer id = 1;
         Integer newCategoriaId = 2;
-        ProductoDto dto = new ProductoDto();
+        ProductoUpdateDto dto = new ProductoUpdateDto();
         dto.setCategoriaId(newCategoriaId);
 
         Producto producto = new Producto();
         Categoria newCategoria = new Categoria();
         Producto updatedProducto = new Producto();
-        ProductoDto resultDto = new ProductoDto();
+        ProductoUpdateDto resultDto = new ProductoUpdateDto();
 
         when(productoRepository.findById(id)).thenReturn(Optional.of(producto));
         when(categoriaRepository.findById(newCategoriaId)).thenReturn(Optional.of(newCategoria));
@@ -149,7 +149,7 @@ class ProductoServiceTest {
         when(productoMapper.toDto(updatedProducto)).thenReturn(resultDto);
 
         // Act
-        ProductoDto result = productoService.update(id, dto);
+        ProductoUpdateDto result = productoService.update(id, dto);
 
         // Assert
         assertNotNull(result);
@@ -166,19 +166,19 @@ class ProductoServiceTest {
     void update_WithoutCategoriaChange_ShouldUpdateAndReturnProductoDto() {
         // Arrange
         Integer id = 1;
-        ProductoDto dto = new ProductoDto();
+        ProductoUpdateDto dto = new ProductoUpdateDto();
         dto.setCategoriaId(null); // No cambia la categoría
 
         Producto producto = new Producto();
         Producto updatedProducto = new Producto();
-        ProductoDto resultDto = new ProductoDto();
+        ProductoUpdateDto resultDto = new ProductoUpdateDto();
 
         when(productoRepository.findById(id)).thenReturn(Optional.of(producto));
         when(productoRepository.save(producto)).thenReturn(updatedProducto);
         when(productoMapper.toDto(updatedProducto)).thenReturn(resultDto);
 
         // Act
-        ProductoDto result = productoService.update(id, dto);
+        ProductoUpdateDto result = productoService.update(id, dto);
 
         // Assert
         assertNotNull(result);
@@ -194,7 +194,7 @@ class ProductoServiceTest {
     void update_WhenProductoNotExists_ShouldThrowResourceNotFoundException() {
         // Arrange
         Integer id = 1;
-        ProductoDto dto = new ProductoDto();
+        ProductoUpdateDto dto = new ProductoUpdateDto();
         when(productoRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act & Assert
@@ -208,7 +208,7 @@ class ProductoServiceTest {
         // Arrange
         Integer id = 1;
         Integer newCategoriaId = 2;
-        ProductoDto dto = new ProductoDto();
+        ProductoUpdateDto dto = new ProductoUpdateDto();
         dto.setCategoriaId(newCategoriaId);
 
         Producto producto = new Producto();
