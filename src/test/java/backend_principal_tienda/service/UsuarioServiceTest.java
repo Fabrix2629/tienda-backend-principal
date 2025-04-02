@@ -1,6 +1,6 @@
 package backend_principal_tienda.service;
 
-import backend_principal_tienda.dto.Update.UsuarioDto;
+import backend_principal_tienda.dto.Update.UsuarioUpdateDto;
 import backend_principal_tienda.dto.create.UsuarioCreateDto;
 import backend_principal_tienda.entity.Usuario;
 import backend_principal_tienda.exceptions.ConflictException;
@@ -34,22 +34,22 @@ class UsuarioServiceTest {
     private UsuarioService usuarioService;
 
     private Usuario usuario;
-    private UsuarioDto usuarioDto;
+    private UsuarioUpdateDto usuarioUpdateDto;
     private UsuarioCreateDto usuarioCreateDto;
 
     @BeforeEach
     void setUp() {
         usuario = new Usuario();
-        usuario.setId(1);
-        usuario.setNombre("Juan Perez");
-        usuario.setUsuario("jperez");
-        usuario.setClave("password123");
+        usuario.setIdUser(1);
+        usuario.setName("Juan Perez");
+        usuario.setUsername("jperez");
+        usuario.setPassword("password123");
 
-        usuarioDto = new UsuarioDto();
-        usuarioDto.setId(1);
-        usuarioDto.setNombre("Juan Perez");
-        usuarioDto.setUsuario("jperez");
-        usuarioDto.setClave("password123");
+        usuarioUpdateDto = new UsuarioUpdateDto();
+        usuarioUpdateDto.setId(1);
+        usuarioUpdateDto.setNombre("Juan Perez");
+        usuarioUpdateDto.setUsuario("jperez");
+        usuarioUpdateDto.setClave("password123");
 
         usuarioCreateDto = new UsuarioCreateDto();
         usuarioCreateDto.setNombre("Juan Perez");
@@ -61,15 +61,15 @@ class UsuarioServiceTest {
     void findAllUsuarioDto() {
         // Arrange
         when(usuarioRepository.findAll()).thenReturn(List.of(usuario));
-        when(usuarioMapper.toDto(usuario)).thenReturn(usuarioDto);
+        when(usuarioMapper.toDto(usuario)).thenReturn(usuarioUpdateDto);
 
         // Act
-        List<UsuarioDto> result = usuarioService.findAll();
+        List<UsuarioUpdateDto> result = usuarioService.findAll();
 
         // Assert
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(usuarioDto, result.get(0));
+        assertEquals(usuarioUpdateDto, result.get(0));
         verify(usuarioRepository).findAll();
         verify(usuarioMapper).toDto(usuario);
     }
@@ -78,14 +78,14 @@ class UsuarioServiceTest {
     void findByIdWhenUsuarioExists() {
         // Arrange
         when(usuarioRepository.findById(1)).thenReturn(Optional.of(usuario));
-        when(usuarioMapper.toDto(usuario)).thenReturn(usuarioDto);
+        when(usuarioMapper.toDto(usuario)).thenReturn(usuarioUpdateDto);
 
         // Act
-        UsuarioDto result = usuarioService.findById(1);
+        UsuarioUpdateDto result = usuarioService.findById(1);
 
         // Assert
         assertNotNull(result);
-        assertEquals(usuarioDto, result);
+        assertEquals(usuarioUpdateDto, result);
         verify(usuarioRepository).findById(1);
         verify(usuarioMapper).toDto(usuario);
     }
@@ -106,14 +106,14 @@ class UsuarioServiceTest {
         when(usuarioRepository.existsByUsuario("jperez")).thenReturn(false);
         when(usuarioMapper.toEntity(usuarioCreateDto)).thenReturn(usuario);
         when(usuarioRepository.save(usuario)).thenReturn(usuario);
-        when(usuarioMapper.toDto(usuario)).thenReturn(usuarioDto);
+        when(usuarioMapper.toDto(usuario)).thenReturn(usuarioUpdateDto);
 
         // Act
-        UsuarioDto result = usuarioService.create(usuarioCreateDto);
+        UsuarioUpdateDto result = usuarioService.create(usuarioCreateDto);
 
         // Assert
         assertNotNull(result);
-        assertEquals(usuarioDto, result);
+        assertEquals(usuarioUpdateDto, result);
         verify(usuarioRepository).existsByUsuario("jperez");
         verify(usuarioMapper).toEntity(usuarioCreateDto);
         verify(usuarioRepository).save(usuario);
@@ -143,7 +143,7 @@ class UsuarioServiceTest {
 
         // Act & Assert
         assertThrows(ResourceNotFoundException.class,
-                () -> usuarioService.update(1, usuarioDto));
+                () -> usuarioService.update(1, usuarioUpdateDto));
         verify(usuarioRepository).findById(1);
         verify(usuarioRepository, never()).save(any());
     }
@@ -152,12 +152,12 @@ class UsuarioServiceTest {
     @Test
     void updateWithEmptyClaveException() {
         // Arrange
-        usuarioDto.setClave("");
+        usuarioUpdateDto.setClave("");
         when(usuarioRepository.findById(1)).thenReturn(Optional.of(usuario));
 
         // Act & Assert
         ConflictException exception = assertThrows(ConflictException.class,
-                () -> usuarioService.update(1, usuarioDto));
+                () -> usuarioService.update(1, usuarioUpdateDto));
 
         assertEquals("Debe ingresar una clave", exception.getMessage());
         verify(usuarioRepository).findById(1);

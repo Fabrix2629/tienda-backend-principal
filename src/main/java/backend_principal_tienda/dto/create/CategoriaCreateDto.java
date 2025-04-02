@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoriaCreateDto {
     private String nombre;
+    private String codigoCategory;
     private String descripcion;
 }

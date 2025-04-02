@@ -1,51 +1,55 @@
 package backend_principal_tienda.service;
 
-import backend_principal_tienda.dto.Update.CategoriaDto;
+import backend_principal_tienda.dto.Update.CategoriaUpdateDto;
+import backend_principal_tienda.dto.Update.ProductoUpdateDto;
 import backend_principal_tienda.dto.create.CategoriaCreateDto;
 import backend_principal_tienda.entity.Categoria;
+import backend_principal_tienda.entity.Producto;
 import backend_principal_tienda.exceptions.InvalidTypeException;
 import backend_principal_tienda.exceptions.ResourceNotFoundException;
 import backend_principal_tienda.mapper.CategoriaMapper;
-import backend_principal_tienda.mapper.ProductoMapper;
 import backend_principal_tienda.repository.CategoriaRepository;
-import backend_principal_tienda.repository.ProductoRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CategoriaService {
 
-    private final CategoriaRepository categoriaRepository;
-    private final CategoriaMapper categoriaMapper;
+    private final  CategoriaRepository categoriaRepository;
+    private final  CategoriaMapper categoriaMapper;
 
-    @Transactional(readOnly = true)
-    public List<CategoriaDto> findAll() {
-        return categoriaRepository.findAll().stream()
+    private String generarCodigoCategoria() {
+        Optional<Integer> maxNumber = categoriaRepository.findMaxCategoryCodeNumber();
+        int nextNumber = maxNumber.orElse(0) + 1;
+        return String.format("CAT-%03d", nextNumber);
+    }
+    public List<CategoriaUpdateDto> findAll() {
+        List<Categoria> categorias = categoriaRepository.findAll();
+        return categorias.stream()
                 .map(categoriaMapper::toDto)
                 .collect(Collectors.toList());
     }
-
-    @Transactional(readOnly = true)
-    public CategoriaDto findById(Integer id) {
+    public CategoriaUpdateDto findById(Integer id) {
         return categoriaMapper.toDto(categoriaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada")));
     }
 
-    @Transactional
-    public CategoriaDto create(CategoriaCreateDto dto) {
+    public CategoriaUpdateDto create(CategoriaCreateDto dto) {
         Categoria categoria = categoriaMapper.toEntity(dto);
+        String nuevoCodigo = generarCodigoCategoria();
+        categoria.setCodCategory(nuevoCodigo);
         return categoriaMapper.toDto(categoriaRepository.save(categoria));
     }
 
-    @Transactional
-    public CategoriaDto update(Integer id, Map<String, Object> updates) {
+    public CategoriaUpdateDto update(Integer id, Map<String, Object> updates) {
         Categoria categoria = categoriaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
 
@@ -53,20 +57,25 @@ public class CategoriaService {
             if (!(updates.get("nombre") instanceof String)) {
                 throw new InvalidTypeException("nombre", "String");
             }
-            categoria.setNombre((String) updates.get("nombre"));
+            categoria.setNameCategory((String) updates.get("nombre"));
         }
 
         if (updates.containsKey("descripcion")) {
             if (updates.get("descripcion") != null && !(updates.get("descripcion") instanceof String)) {
                 throw new InvalidTypeException("descripcion", "String");
             }
-            categoria.setDescripcion((String) updates.get("descripcion"));
+            categoria.setDescriptionCategory((String) updates.get("descripcion"));
         }
 
         return categoriaMapper.toDto(categoriaRepository.save(categoria));
     }
 
-    @Transactional
+    public void deleteById(Integer id){
+        if (!categoriaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Categoría no encontrada");
+        }
+        categoriaRepository.deleteById(id);
+    }
     public void deleteWithProducts(Integer id) {
         if (!categoriaRepository.existsById(id)) {
             throw new ResourceNotFoundException("Categoría no encontrada");

@@ -1,8 +1,11 @@
 package backend_principal_tienda.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "productos")
@@ -14,22 +17,38 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id_producto")
+    private Integer idProduct;
 
-    @Column(nullable = false, length = 100)
-    private String nombre;
+    @Column(name = "codigo ", length = 50, unique = true, nullable = false)
+    private String codProduct;
 
-    @Column(columnDefinition = "TEXT")
-    private String descripcion;
+    @Column(name = "nombre",nullable = false, length = 30)
+    private String productName;
 
-    @Column(nullable = false)
-    private Double precio;
+    @Column(name = "descripcion",columnDefinition = "TEXT")
+    private String descriptionName;
 
-    @Column(nullable = false)
-    private Integer stock;
+    @Column(name = "precio",nullable = false)
+    private Double priceProduct;
 
+    @Column(name = "stock",nullable = false)
+    private Integer stockProduct;
+
+<<<<<<< Updated upstream
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 
+=======
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", referencedColumnName = "id_categoria",nullable = false)
+    private Categoria categoryProduct;
+    @PrePersist
+    private void generarCodigo() {
+        if (codProduct == null || codProduct.isEmpty()) {
+            this.codProduct = "PROD-" + UUID.randomUUID().toString().substring(0, 3).toUpperCase();
+        }
+    }
+>>>>>>> Stashed changes
 }
