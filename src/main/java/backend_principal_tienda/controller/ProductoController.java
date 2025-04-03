@@ -15,9 +15,7 @@ import java.util.List;
 @RequestMapping("/api/v1/backend-principal-tienda/productos")
 @RequiredArgsConstructor
 public class ProductoController {
-
     private final ProductoService productoService;
-
     @GetMapping("/findAll")
     public ResponseEntity<List<ProductoUpdateDto>> getAll() {
         return ResponseEntity.ok(productoService.findAll());
