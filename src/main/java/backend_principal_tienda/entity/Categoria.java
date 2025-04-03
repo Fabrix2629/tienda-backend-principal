@@ -25,6 +25,7 @@ public class Categoria {
     @Column(name = "codigo",length = 50, unique = true, nullable = false)
     private String codCategory;
 
+
     @Column(name = "nombre_categoria",nullable = false, length = 100)
     private String nameCategory;
 

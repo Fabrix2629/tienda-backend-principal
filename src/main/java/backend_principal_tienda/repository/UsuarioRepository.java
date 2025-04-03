@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
-
     boolean existsByUsername(String username);
     @Query("SELECT MAX(CAST(SUBSTRING(u.codUser, 5) AS int)) FROM Usuario u WHERE u.codUser LIKE 'USR-%'")
     Optional<Integer> findMaxUserCodeNumber();

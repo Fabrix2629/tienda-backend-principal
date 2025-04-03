@@ -55,22 +55,20 @@ public class ProductoService {
         producto.setCodProduct(nuevoCodigo);
         Producto producSave = productoRepository.save(producto);
 
-
-        ProductoUpdateDto responseDto = productoMapper.toDto(producSave);
-        responseDto.setCategoryProduct(categoria);
-        return responseDto;
+        return productoMapper.toDto(productoRepository.save(producto));
     }
 
     public ProductoUpdateDto update(Integer id, ProductoUpdateDto dto) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado"));
+        productoMapper.updateFromDto(dto, producto);
 
         if (dto.getCategoryProduct() != null && dto.getCategoryProduct().getIdCategory() != null) {
             Categoria categoria = categoriaRepository.findById(dto.getCategoryProduct().getIdCategory())
                     .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
             producto.setCategoryProduct(categoria);
         }
-        productoMapper.updateFromDto(dto, producto);
+
         return productoMapper.toDto(productoRepository.save(producto));
     }
 

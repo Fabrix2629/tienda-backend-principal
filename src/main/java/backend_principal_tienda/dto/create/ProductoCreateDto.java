@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductoCreateDto {
+
     private String productName;
     private String codigoProducto;
     private String descriptionName;

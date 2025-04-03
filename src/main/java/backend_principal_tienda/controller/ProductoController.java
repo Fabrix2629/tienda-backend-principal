@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/backend-principal-tienda/productos")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class ProductoController {
 
     private final ProductoService productoService;
@@ -23,6 +22,7 @@ public class ProductoController {
     public ResponseEntity<List<ProductoUpdateDto>> getAll() {
         return ResponseEntity.ok(productoService.findAll());
     }
+
 
     @GetMapping("findById/{id}")
     public ResponseEntity<ProductoUpdateDto> getById(@PathVariable Integer id) {
@@ -38,7 +38,7 @@ public class ProductoController {
     public ResponseEntity<ProductoUpdateDto> update(@PathVariable Integer id,  @Valid @RequestBody ProductoUpdateDto productoUpdateDto) {
         return ResponseEntity.ok(productoService.update(id, productoUpdateDto));
     }
-
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         productoService.delete(id);
