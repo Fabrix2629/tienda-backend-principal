@@ -1,6 +1,6 @@
 package backend_principal_tienda.controller;
 
-import backend_principal_tienda.dto.Update.ProductoDto;
+import backend_principal_tienda.dto.Update.ProductoUpdateDto;
 import backend_principal_tienda.dto.create.ProductoCreateDto;
 import backend_principal_tienda.service.ProductoService;
 import jakarta.validation.Valid;
@@ -20,25 +20,23 @@ public class ProductoController {
     private final ProductoService productoService;
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<ProductoDto>> getAll() {
+    public ResponseEntity<List<ProductoUpdateDto>> getAll() {
         return ResponseEntity.ok(productoService.findAll());
     }
 
     @GetMapping("findById/{id}")
-    public ResponseEntity<ProductoDto> getById(@PathVariable Integer id) {
+    public ResponseEntity<ProductoUpdateDto> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(productoService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<ProductoDto> create(@Valid @RequestBody ProductoCreateDto dto) {
-        return new ResponseEntity<>(productoService.create(dto), HttpStatus.CREATED);
+    public ResponseEntity<ProductoUpdateDto> create(@Valid  @RequestBody ProductoCreateDto productoCreateDto) {
+        return new ResponseEntity<>(productoService.create(productoCreateDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductoDto> update(
-            @PathVariable Integer id,
-            @Valid @RequestBody ProductoDto dto) {
-        return ResponseEntity.ok(productoService.update(id, dto));
+    public ResponseEntity<ProductoUpdateDto> update(@PathVariable Integer id,  @Valid @RequestBody ProductoUpdateDto productoUpdateDto) {
+        return ResponseEntity.ok(productoService.update(id, productoUpdateDto));
     }
 
     @DeleteMapping("/{id}")

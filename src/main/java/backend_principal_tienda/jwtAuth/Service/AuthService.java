@@ -46,11 +46,6 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest request) {
-        try {
-            if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-                throw new RuntimeException("Username already exists");
-            }
-
             User user = User.builder()
                     .username(request.getUsername())
                     .lastName(request.getLastName())
@@ -58,15 +53,11 @@ public class AuthService {
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(Role.ADMIN)
                     .build();
-
             userRepository.save(user);
 
             return AuthResponse.builder()
                     .token(jwtService.getToken(user))
                     .build();
 
-        } catch (Exception e) {
-            throw new RuntimeException("Registration failed: " + e.getMessage());
-        }
     }
 }

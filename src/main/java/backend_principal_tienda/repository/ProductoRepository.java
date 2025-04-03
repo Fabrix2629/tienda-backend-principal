@@ -8,7 +8,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
+
+    @Query("SELECT MAX(CAST(SUBSTRING(p.codProduct, 6) AS int)) FROM Producto p WHERE p.codProduct LIKE 'PROD-%'")
+    Optional<Integer> findMaxProductCodeNumber();
+
 }

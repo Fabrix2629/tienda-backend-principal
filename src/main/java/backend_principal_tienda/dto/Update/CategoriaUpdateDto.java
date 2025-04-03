@@ -2,15 +2,13 @@ package backend_principal_tienda.dto.Update;
 
 import lombok.*;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UsuarioDto {
+public class CategoriaUpdateDto {
     private Integer id;
-    private String nombre;
-    private String usuario;
-    private String clave;
+    private String nameCategory;
+    private String codigoCategory;
+    private String descriptionCategory;
 }
