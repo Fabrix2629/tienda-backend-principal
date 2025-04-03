@@ -42,20 +42,13 @@ public class ProductoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado")));
     }
 
-<<<<<<< Updated upstream
-    @Transactional
-    public ProductoDto create(ProductoCreateDto dto) {
-        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
-=======
+
     public ProductoUpdateDto create(ProductoCreateDto dto) {
         if (dto == null) {
             throw new IllegalArgumentException("Los datos del producto son requeridos");
         }
-
         Categoria categoria = categoriaRepository.findById(dto.getIdCategory())
                 .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada con ID: " + dto.getIdCategory()));
->>>>>>> Stashed changes
 
         Producto producto = productoMapper.toEntity(dto);
         producto.setCategoryProduct(categoria);
@@ -63,27 +56,18 @@ public class ProductoService {
         producto.setCodProduct(nuevoCodigo);
         Producto producSave = productoRepository.save(producto);
 
-<<<<<<< Updated upstream
-        return productoMapper.toDto(productoRepository.save(producto));
-=======
+
         ProductoUpdateDto responseDto = productoMapper.toDto(producSave);
         responseDto.setCategoryProduct(categoria);
         return responseDto;
->>>>>>> Stashed changes
+
     }
     public ProductoUpdateDto update(Integer id, ProductoUpdateDto dto) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado"));
 
-<<<<<<< Updated upstream
-        productoMapper.updateFromDto(dto, producto);
-
-        if (dto.getCategoriaId() != null) {
-            Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-=======
         if (dto.getCategoryProduct() != null && dto.getCategoryProduct().getIdCategory() != null) {
             Categoria categoria = categoriaRepository.findById(dto.getCategoryProduct().getIdCategory())
->>>>>>> Stashed changes
                     .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
             producto.setCategoryProduct(categoria);
         }

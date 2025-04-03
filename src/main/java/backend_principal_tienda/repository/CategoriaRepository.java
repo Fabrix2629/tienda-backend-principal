@@ -14,7 +14,6 @@ import java.util.Optional;
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
     @Query("SELECT MAX(CAST(SUBSTRING(c.codCategory, 5) AS int)) FROM Categoria c WHERE c.codCategory LIKE 'CAT-%'")
     Optional<Integer> findMaxCategoryCodeNumber();
-
     @Modifying
     @Transactional
     @Query("DELETE FROM Producto p WHERE p.categoryProduct.idCategory = :categoriaId")

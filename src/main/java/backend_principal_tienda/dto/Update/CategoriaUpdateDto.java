@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CategoriaUpdateDto {
+    private Integer id;
     private String nameCategory;
     private String codigoCategory;
     private String descriptionCategory;

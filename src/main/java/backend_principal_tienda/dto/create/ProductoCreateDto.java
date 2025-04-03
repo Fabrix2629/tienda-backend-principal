@@ -10,13 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductoCreateDto {
-<<<<<<< Updated upstream
-    private String nombre;
-    private String descripcion;
-    private Double precio;
-    private Integer stock;
-    private Integer categoriaId;
-=======
     private String productName;
     private String codigoProducto;
     private String descriptionName;
@@ -24,5 +17,4 @@ public class ProductoCreateDto {
     private Integer stockProduct;
     private Integer idCategory;
 
->>>>>>> Stashed changes
 }

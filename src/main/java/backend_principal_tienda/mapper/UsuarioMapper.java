@@ -7,12 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UsuarioMapper {
-<<<<<<< Updated upstream
 
-    public UsuarioDto toDto(Usuario usuario) {
-=======
     public UsuarioUpdateDto toDto(Usuario usuario) {
->>>>>>> Stashed changes
         if (usuario == null) return null;
 
         return UsuarioUpdateDto.builder()

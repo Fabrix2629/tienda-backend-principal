@@ -25,18 +25,10 @@ public class Categoria {
     @Column(name = "codigo",length = 50, unique = true, nullable = false)
     private String codCategory;
 
-<<<<<<< Updated upstream
-    @Column(columnDefinition = "TEXT")
-    private String descripcion;
-    @Builder.Default
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Producto> productos = new ArrayList<>();
-=======
     @Column(name = "nombre_categoria",nullable = false, length = 100)
     private String nameCategory;
->>>>>>> Stashed changes
 
-    @Column(name = "descripcion",columnDefinition = "TEXT")
+    @Column(name = "descripcion")
     private String descriptionCategory;
 
     @PrePersist

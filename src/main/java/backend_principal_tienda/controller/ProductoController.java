@@ -3,6 +3,7 @@ package backend_principal_tienda.controller;
 import backend_principal_tienda.dto.Update.ProductoUpdateDto;
 import backend_principal_tienda.dto.create.ProductoCreateDto;
 import backend_principal_tienda.service.ProductoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,34 +23,19 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.findAll());
     }
 
-<<<<<<< Updated upstream
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductoDto> getById(@PathVariable Integer id) {
-=======
     @GetMapping("findById/{id}")
     public ResponseEntity<ProductoUpdateDto> getById(@PathVariable Integer id) {
->>>>>>> Stashed changes
         return ResponseEntity.ok(productoService.findById(id));
     }
 
     @PostMapping
-<<<<<<< Updated upstream
-    public ResponseEntity<ProductoDto> create(@RequestBody ProductoCreateDto dto) {
-=======
-    public ResponseEntity<ProductoUpdateDto> create(@Valid @RequestBody ProductoCreateDto dto) {
->>>>>>> Stashed changes
-        return new ResponseEntity<>(productoService.create(dto), HttpStatus.CREATED);
+    public ResponseEntity<ProductoUpdateDto> create(@Valid  @RequestBody ProductoCreateDto productoCreateDto) {
+        return new ResponseEntity<>(productoService.create(productoCreateDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductoUpdateDto> update(
-            @PathVariable Integer id,
-<<<<<<< Updated upstream
-            @RequestBody ProductoDto dto) {
-=======
-            @Valid @RequestBody ProductoUpdateDto dto) {
->>>>>>> Stashed changes
-        return ResponseEntity.ok(productoService.update(id, dto));
+    public ResponseEntity<ProductoUpdateDto> update(@PathVariable Integer id,  @Valid @RequestBody ProductoUpdateDto productoUpdateDto) {
+        return ResponseEntity.ok(productoService.update(id, productoUpdateDto));
     }
 
     @DeleteMapping("/{id}")

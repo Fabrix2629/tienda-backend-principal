@@ -35,12 +35,6 @@ public class Producto {
     @Column(name = "stock",nullable = false)
     private Integer stockProduct;
 
-<<<<<<< Updated upstream
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoria_id", nullable = false)
-    private Categoria categoria;
-
-=======
     @ManyToOne
     @JoinColumn(name = "categoria_id", referencedColumnName = "id_categoria",nullable = false)
     private Categoria categoryProduct;
@@ -50,5 +44,4 @@ public class Producto {
             this.codProduct = "PROD-" + UUID.randomUUID().toString().substring(0, 3).toUpperCase();
         }
     }
->>>>>>> Stashed changes
 }
