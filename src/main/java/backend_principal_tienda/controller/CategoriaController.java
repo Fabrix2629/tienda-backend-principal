@@ -39,7 +39,7 @@ public class CategoriaController {
     @PutMapping("/{id}")
     public ResponseEntity<CategoriaUpdateDto> update(
             @PathVariable Integer id,
-            @RequestBody Map<String, Object> updates) {
+            @RequestBody CategoriaUpdateDto updates) {
         return ResponseEntity.ok(categoriaService.update(id, updates));
     }
     @DeleteMapping("/{id}/with-products")

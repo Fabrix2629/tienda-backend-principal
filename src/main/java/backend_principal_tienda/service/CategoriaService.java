@@ -49,22 +49,16 @@ public class CategoriaService {
         return categoriaMapper.toDto(categoriaRepository.save(categoria));
     }
 
-    public CategoriaUpdateDto update(Integer id, Map<String, Object> updates) {
+    public CategoriaUpdateDto update(Integer id, CategoriaUpdateDto dto) {
         Categoria categoria = categoriaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
 
-        if (updates.containsKey("nombre")) {
-            if (!(updates.get("nombre") instanceof String)) {
-                throw new InvalidTypeException("nombre", "String");
-            }
-            categoria.setNameCategory((String) updates.get("nombre"));
+        if (dto.getNameCategory() != null) {
+            categoria.setNameCategory(dto.getNameCategory());
         }
 
-        if (updates.containsKey("descripcion")) {
-            if (updates.get("descripcion") != null && !(updates.get("descripcion") instanceof String)) {
-                throw new InvalidTypeException("descripcion", "String");
-            }
-            categoria.setDescriptionCategory((String) updates.get("descripcion"));
+        if (dto.getDescriptionCategory() != null) {
+            categoria.setDescriptionCategory(dto.getDescriptionCategory());
         }
 
         return categoriaMapper.toDto(categoriaRepository.save(categoria));

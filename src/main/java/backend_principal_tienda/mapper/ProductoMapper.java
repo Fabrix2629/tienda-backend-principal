@@ -10,6 +10,7 @@ public class ProductoMapper {
     public ProductoUpdateDto toDto(Producto producto) {
         if (producto == null) return null;
         return ProductoUpdateDto.builder()
+                .id(producto.getIdProduct())
                 .nameProduct(producto.getProductName())
                 .codigoProducto(producto.getCodProduct())
                 .descriptionProduct(producto.getDescriptionName())
@@ -23,9 +24,9 @@ public class ProductoMapper {
 
     public Producto toEntity(ProductoCreateDto dto) {
         return Producto.builder()
-                .productName(dto.getProductName())
+                .productName(dto.getNameProduct())
                 .codProduct(dto.getCodigoProducto())
-                .descriptionName(dto.getDescriptionName())
+                .descriptionName(dto.getDescriptionProduct())
                 .priceProduct(dto.getPriceProduct())
                 .stockProduct(dto.getStockProduct())
                 .build();

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 public class CategoriaMapper {
     public CategoriaUpdateDto toDto(Categoria categoria) {
         if (categoria == null) return null;
-
         return CategoriaUpdateDto.builder()
                 .id(categoria.getIdCategory())
                 .nameCategory(categoria.getNameCategory())
@@ -19,11 +18,10 @@ public class CategoriaMapper {
     }
     public Categoria toEntity(CategoriaCreateDto dto) {
         if (dto == null) return null;
-
         return Categoria.builder()
-                .nameCategory(dto.getNombre())
+                .nameCategory(dto.getNameCategory())
                 .codCategory(dto.getCodigoCategory())
-                .descriptionCategory(dto.getDescripcion())
+                .descriptionCategory(dto.getDescriptionCategory())
                 .build();
     }
 }

@@ -46,6 +46,11 @@ public class ProductoService {
         if (dto == null) {
             throw new IllegalArgumentException("Los datos del producto son requeridos");
         }
+
+        if (dto.getIdCategory() == null) {
+            throw new IllegalArgumentException("El ID de categoría es requerido");
+        }
+
         Categoria categoria = categoriaRepository.findById(dto.getIdCategory())
                 .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada con ID: " + dto.getIdCategory()));
 
@@ -53,23 +58,30 @@ public class ProductoService {
         producto.setCategoryProduct(categoria);
         String nuevoCodigo = generarCodigoProducto();
         producto.setCodProduct(nuevoCodigo);
-        Producto producSave = productoRepository.save(producto);
 
         return productoMapper.toDto(productoRepository.save(producto));
     }
 
     public ProductoUpdateDto update(Integer id, ProductoUpdateDto dto) {
+
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado"));
+
         productoMapper.updateFromDto(dto, producto);
 
         if (dto.getCategoryProduct() != null && dto.getCategoryProduct().getIdCategory() != null) {
-            Categoria categoria = categoriaRepository.findById(dto.getCategoryProduct().getIdCategory())
+            Integer categoriaId = dto.getCategoryProduct().getIdCategory();
+            Categoria categoria = categoriaRepository.findById(categoriaId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
+            producto.setCategoryProduct(categoria);
+        } else {
+            Categoria categoria = categoriaRepository.findById(dto.getIdCategory())
                     .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
             producto.setCategoryProduct(categoria);
         }
 
-        return productoMapper.toDto(productoRepository.save(producto));
+        Producto productoActualizado = productoRepository.save(producto);
+        return productoMapper.toDto(productoActualizado);
     }
 
     public void delete(Integer id) {

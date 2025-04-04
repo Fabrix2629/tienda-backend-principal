@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/backend-principal-tienda/productos")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class ProductoController {
     private final ProductoService productoService;
@@ -28,12 +29,16 @@ public class ProductoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductoUpdateDto> create(@Valid  @RequestBody ProductoCreateDto productoCreateDto) {
+    public ResponseEntity<ProductoUpdateDto> create(
+            @RequestBody ProductoCreateDto productoCreateDto) {
         return new ResponseEntity<>(productoService.create(productoCreateDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductoUpdateDto> update(@PathVariable Integer id,  @Valid @RequestBody ProductoUpdateDto productoUpdateDto) {
+    public ResponseEntity<ProductoUpdateDto> update(
+            @PathVariable Integer id,
+            @RequestBody ProductoUpdateDto productoUpdateDto) {
+
         return ResponseEntity.ok(productoService.update(id, productoUpdateDto));
     }
     

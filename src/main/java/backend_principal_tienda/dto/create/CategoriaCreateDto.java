@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoriaCreateDto {
-    private String nombre;
+    private String nameCategory;
     private String codigoCategory;
-    private String descripcion;
+    private String descriptionCategory;
 }

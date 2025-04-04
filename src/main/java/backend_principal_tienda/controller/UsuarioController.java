@@ -29,12 +29,15 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioUpdateDto> createUsuario(@RequestBody UsuarioCreateDto usuarioCreateDto) {
+    public ResponseEntity<UsuarioUpdateDto> createUsuario(
+            @RequestBody UsuarioCreateDto usuarioCreateDto) {
         return new ResponseEntity<>(usuarioService.create(usuarioCreateDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioUpdateDto> update(@PathVariable Integer id, @RequestBody UsuarioUpdateDto dto) {
+    public ResponseEntity<UsuarioUpdateDto> update(
+            @PathVariable Integer id,
+            @RequestBody UsuarioUpdateDto dto) {
         return ResponseEntity.ok(usuarioService.update(id, dto));
     }
 
