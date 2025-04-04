@@ -30,10 +30,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authRequest ->
-                        authRequest.requestMatchers(HttpMethod.POST, "/api/v1/backend-principal-tienda/auth/**").permitAll()
-                                .anyRequest().authenticated())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                //.authorizeHttpRequests(authRequest ->
+                   //     authRequest.requestMatchers(HttpMethod.POST, "/api/v1/backend-principal-tienda/auth/**").permitAll()
+                      //          .anyRequest().authenticated())
+                //.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
